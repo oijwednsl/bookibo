@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>we❤️tomi — The FaceTime Summoning</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pink: #ff4d9d;
+      --red: #ff3b30;
+      --orange: #ff7a28;
+      --yellow: #ffe66d;
+      --cream: #fff1dc;
+      --dark: #100707;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse at 50% 35%, #421018 0%, #1c080c 42%, #080505 100%);
+      color: var(--cream);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      text-align: center;
+    }
+
+    #fx {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: .12;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+    }
+
+    .page {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 24px 80px;
+    }
+
+    .topline {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: #ff9b8a;
+      margin-top: 18px;
+    }
+
+    .countdown-wrap {
+      margin: 45px auto 55px;
+    }
+
+    .countdown-label {
+      color: var(--yellow);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+
+    #count {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(35px, 8vw, 76px);
+      line-height: 1;
+      letter-spacing: -.055em;
+      color: var(--yellow);
+      text-shadow:
+        0 0 12px #ff7a28,
+        0 0 35px #ff3b30,
+        0 0 75px #ff1f6b;
+      animation: pulse 1.5s ease-in-out infinite alternate;
+      font-variant-numeric: tabular-nums;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      to {
+        transform: scale(1.025);
+        filter: brightness(1.3);
+      }
+    }
+
+    .hero {
+      padding: 30px 0 55px;
+      position: relative;
+    }
+
+    .eyebrow {
+      color: var(--pink);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(75px, 17vw, 190px);
+      line-height: .82;
+      letter-spacing: -.09em;
+      color: #fff0dd;
+      text-shadow:
+        4px 4px 0 var(--red),
+        8px 8px 0 #9c1538,
+        0 0 35px #ff3b30,
+        0 0 85px #ff4d9d;
+      transform: rotate(-3deg);
+      margin-bottom: 35px;
+    }
+
+    .heart {
+      color: var(--pink);
+      display: inline-block;
+      text-shadow:
+        0 0 15px var(--pink),
+        0 0 45px var(--red);
+      animation: heartbeat 1s infinite;
+      transform-origin: center;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.2); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.12); }
+    }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      letter-spacing: .12em;
+      color: #ffb2a4;
+      text-transform: uppercase;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #ff4d9d, #ff7a28, transparent);
+      margin: 35px auto;
+      opacity: .8;
+    }
+
+    .invitation {
+      padding: 30px 0;
+    }
+
+    .section-label {
+      color: var(--orange);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .names {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+
+    .name-card {
+      border: 1px solid rgba(255, 120, 100, .65);
+      background: linear-gradient(135deg, rgba(255, 77, 157, .13), rgba(255, 122, 40, .08));
+      padding: 20px 32px;
+      min-width: 220px;
+      box-shadow: 0 0 25px rgba(255, 59, 48, .12);
+      transform: rotate(-1deg);
+    }
+
+    .name-card:nth-child(2) {
+      transform: rotate(1deg);
+    }
+
+    .name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 25px;
+      color: #fff0dd;
+      text-shadow: 0 0 15px rgba(255, 77, 157, .6);
+    }
+
+    .invite-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .2em;
+      color: #ff9b8a;
+      margin-top: 9px;
+      text-transform: uppercase;
+    }
+
+    .time-heading {
+      color: var(--yellow);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .clocks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 780px;
+      margin: auto;
+    }
+
+    .clock {
+      padding: 24px 10px;
+      border: 1px solid rgba(255, 230, 109, .45);
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .clock-city {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .18em;
+      color: #ff9b8a;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .clock-time {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(22px, 4vw, 35px);
+      color: var(--yellow);
+      text-shadow: 0 0 20px rgba(255, 122, 40, .6);
+      white-space: nowrap;
+    }
+
+    .clock-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: #d99c91;
+      margin-top: 10px;
+    }
+
+    .agenda {
+      margin: 55px auto 45px;
+      max-width: 650px;
+    }
+
+    .agenda-title {
+      color: var(--pink);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: .25em;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .agenda-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .agenda-item {
+      border: 1px solid rgba(255, 77, 157, .5);
+      border-radius: 100px;
+      padding: 12px 20px;
+      color: #ffe2d4;
+      font-size: 14px;
+      background: rgba(255, 77, 157, .08);
+    }
+
+    .agenda-item span {
+      margin-right: 7px;
+    }
+
+    .confirm {
+      display: inline-block;
+      border: none;
+      padding: 19px 38px;
+      margin-top: 15px;
+      background: linear-gradient(110deg, var(--pink), var(--red), var(--orange));
+      color: #fff7e9;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 17px;
+      letter-spacing: .04em;
+      cursor: pointer;
+      box-shadow:
+        0 0 20px rgba(255, 59, 48, .4),
+        0 0 55px rgba(255, 77, 157, .2);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .confirm:hover {
+      transform: scale(1.07) rotate(-1deg);
+      box-shadow:
+        0 0 30px rgba(255, 59, 48, .7),
+        0 0 75px rgba(255, 77, 157, .4);
+    }
+
+    .confirm:active {
+      transform: scale(.97);
+    }
+
+    .response {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--yellow);
+      letter-spacing: .15em;
+      min-height: 20px;
+      margin-top: 20px;
+    }
+
+    footer {
+      margin-top: 70px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .2em;
+      line-height: 2;
+      color: #a96c67;
+      text-transform: uppercase;
+    }
+
+    .sparkle {
+      display: inline-block;
+      color: var(--yellow);
+      animation: twinkle 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: .35; transform: scale(.8); }
+      to { opacity: 1; transform: scale(1.3); }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding-left: 17px;
+        padding-right: 17px;
+      }
+
+      .countdown-wrap {
+        margin: 38px auto 45px;
+      }
+
+      .clocks {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+      }
+
+      .clock {
+        padding: 18px;
+      }
+
+      .clock-time {
+        font-size: 32px;
+      }
+
+      .name-card {
+        width: 100%;
+      }
+
+      h1 {
+        font-size: clamp(72px, 19vw, 120px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="fx"></canvas>
+  <div class="noise"></div>
+
+  <main class="page">
+    <div class="topline">
+      ✦ an extremely important announcement ✦
+    </div>
+
+    <section class="countdown-wrap">
+      <div class="countdown-label">the call begins in...</div>
+      <div id="count">00D 00:00:00</div>
+    </section>
+
+    <section class="hero">
+      <div class="eyebrow">you are formally summoned</div>
+      <h1>we<span class="heart">❤️</span>tomi</h1>
+      <div class="subtitle">
+        one group. three time zones.<br>
+        absolutely no excuse to miss this.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="invitation">
+      <div class="section-label">✦ this invitation is addressed to ✦</div>
+
+      <div class="names">
+        <div class="name-card">
+          <div class="name">Tiffany</div>
+          <div class="invite-caption">Chehyun Lee</div>
+        </div>
+
+        <div class="name-card">
+          <div class="name">Yuhan</div>
+          <div class="invite-caption">Yui Bi</div>
+        </div>
+      </div>
+
+      <div class="time-heading">✦ save the date ✦</div>
+
+      <div class="clocks">
+        <div class="clock">
+          <div class="clock-city">New York</div>
+          <div class="clock-time" id="ny">10:00 PM</div>
+          <div class="clock-date">MON · NOV 16</div>
+        </div>
+
+        <div class="clock">
+          <div class="clock-city">Los Angeles</div>
+          <div class="clock-time" id="la">7:00 PM</div>
+          <div class="clock-date">MON · NOV 16</div>
+        </div>
+
+        <div class="clock">
+          <div class="clock-city">Korea</div>
+          <div class="clock-time" id="kr">12:00 PM</div>
+          <div class="clock-date">TUE · NOV 17</div>
+        </div>
+      </div>
+
+      <section class="agenda">
+        <div class="agenda-title">the official agenda</div>
+        <div class="agenda-list">
+          <div class="agenda-item"><span>💬</span> yapping</div>
+          <div class="agenda-item"><span>🔥</span> chaos</div>
+          <div class="agenda-item"><span>🫢</span> life updates</div>
+          <div class="agenda-item"><span>❤️</span> missing each other</div>
+        </div>
+      </section>
+
+      <button class="confirm" onclick="celebrate()">
+        I WILL BE THERE ♡
+      </button>
+
+      <div class="response" id="response"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <footer>
+      <span class="sparkle">✦</span>
+      issued with love by we❤️tomi
+      <span class="sparkle">✦</span>
+      <br>
+      attendance is mandatory in spirit
+    </footer>
+  </main>
+
+  <script>
+    // FIXED FACETIME TIMES
+    document.getElementById('ny').textContent = '10:00 PM';
+    document.getElementById('la').textContent = '7:00 PM';
+    document.getElementById('kr').textContent = '12:00 PM';
+
+    // COUNTDOWN TO NOVEMBER 17, 2026 AT 12:00 PM KOREA TIME
+    // Equivalent to November 16, 2026 at 10:00 PM New York time.
+    const eventUTC = Date.UTC(2026, 10, 17, 3, 0, 0);
+
+    function updateCountdown() {
+      let ms = eventUTC - Date.now();
+      const count = document.getElementById('count');
+
+      if (ms <= 0) {
+        count.textContent = 'IT IS TIME!';
+        return;
+      }
+
+      const days = Math.floor(ms / 86400000);
+      ms %= 86400000;
+
+      const hours = Math.floor(ms / 3600000);
+      ms %= 3600000;
+
+      const minutes = Math.floor(ms / 60000);
+      const seconds = Math.floor((ms % 60000) / 1000);
+
+      count.textContent =
+        `${days}D ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // FIREWORKS AND CONFETTI
+    const canvas = document.getElementById('fx');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    let width = 0;
+    let height = 0;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    const colors = [
+      '#ff4d9d',
+      '#ff3b30',
+      '#ff7a28',
+      '#ffe66d',
+      '#fff1dc'
+    ];
+
+    function burst(x, y, amount = 55) {
+      for (let i = 0; i < amount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 5 + 1;
+
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1,
+          decay: Math.random() * .015 + .008,
+          size: Math.random() * 4 + 1,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      particles = particles.filter(p => p.life > 0);
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += .035;
+        p.vx *= .99;
+        p.vy *= .99;
+        p.life -= p.decay;
+
+        ctx.globalAlpha = Math.max(p.life, 0);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Occasional background fireworks
+    setInterval(() => {
+      if (Math.random() > .35) {
+        burst(
+          Math.random() * width,
+          Math.random() * height * .65,
+          28
+        );
+      }
+    }, 1400);
+
+    // CONFIRM BUTTON
+    function celebrate() {
+      document.getElementById('response').textContent =
+        'ATTENDANCE CONFIRMED. SEE YOU THERE ♡';
+
+      for (let i = 0; i < 7; i++) {
+        setTimeout(() => {
+          burst(
+            Math.random() * width,
+            Math.random() * height * .7,
+            90
+          );
+        }, i * 160);
+      }
+
+      const button = document.querySelector('.confirm');
+      button.textContent = 'SEE YOU SOON ♡';
+    }
+  </script>
+</body>
+</html>
